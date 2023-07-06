@@ -1,3 +1,3 @@
 name: SimpleAliasPlugin
-version: '${project.version}'
+version: '1.0-SNAPSHOT'
 main: com.yopal.simplealiasplugin.SimpleAliasPlugin
