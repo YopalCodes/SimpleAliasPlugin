@@ -1,0 +1,3 @@
+commands:
+  lts: "/server lts"
+  lobby: "/server lobby"
