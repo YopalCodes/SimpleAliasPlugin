@@ -1,3 +1,6 @@
 name: SimpleAliasPlugin
 version: '1.0-SNAPSHOT'
 main: com.yopal.simplealiasplugin.SimpleAliasPlugin
+commands:
+  lts:
+  reload:

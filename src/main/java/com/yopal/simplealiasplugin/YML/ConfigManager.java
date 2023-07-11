@@ -24,7 +24,7 @@ public class ConfigManager {
         ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, new File(sap.getDataFolder(), "config.yml"));
     }
 
-    public static HashMap<String, List<String>> getCommands() {
+    public static HashMap<String, List<String>> getCommands(SimpleAliasPlugin sap) {
         /*
         key = actual command
         value = aliases
@@ -32,7 +32,8 @@ public class ConfigManager {
 
         HashMap<String, List<String>> commands = new HashMap<>();
 
-        for (String key : config.getSection("commands.").getKeys()) {
+        for (String key : config.getSection("commands").getKeys()) {
+            sap.getLogger().info(key);
             commands.put(config.getString("commands." + key + "commandToRun"), config.getStringList("commands." + key + ".aliases"));
         }
 
