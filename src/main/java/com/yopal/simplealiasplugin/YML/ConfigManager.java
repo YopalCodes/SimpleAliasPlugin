@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,24 +21,63 @@ public class ConfigManager {
         config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(sap.getDataFolder(), "config.yml"));
     }
 
-    public static void saveConfig(SimpleAliasPlugin sap) throws IOException {
-        ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, new File(sap.getDataFolder(), "config.yml"));
+    public static HashMap<String, String> getCommandsToRun() {
+        /*
+        key = actual command to run (/server Lobby)
+        value = aliases
+         */
+
+        HashMap<String, String> commands = new HashMap<>();
+
+        for (String key : config.getSection("commands").getKeys()) {
+            commands.put(key, config.getString("commands." + key + ".commandToRun"));
+        }
+
+        return commands;
     }
 
-    public static HashMap<String, List<String>> getCommands(SimpleAliasPlugin sap) {
+    public static HashMap<String, List<String>> getAliases(SimpleAliasPlugin sap) {
         /*
-        key = actual command
+        key = main command (/lts)
         value = aliases
          */
 
         HashMap<String, List<String>> commands = new HashMap<>();
 
         for (String key : config.getSection("commands").getKeys()) {
-            sap.getLogger().info(key);
-            commands.put(config.getString("commands." + key + "commandToRun"), config.getStringList("commands." + key + ".aliases"));
+            commands.put(key, config.getStringList("commands." + key + ".aliases"));
         }
 
         return commands;
+    }
+
+    public static HashMap<String, List<String>> getArguments(String mainCommand) {
+        /*
+        key = args position
+        value = args
+         */
+        HashMap<String, List<String>> arguments = new HashMap<>();
+
+        for (String key : config.getSection("commands." + mainCommand + ".tab").getKeys()) {
+            arguments.put(key, config.getStringList("commands." + mainCommand + ".tab." + key));
+        }
+
+        return arguments;
+    }
+
+    public static HashMap<String, String> getPermissions() {
+        /*
+        key = main command (/lts)
+        value = permission
+         */
+
+        HashMap<String, String> permissions = new HashMap<>();
+
+        for (String key : config.getSection("commands").getKeys()) {
+            permissions.put(key, config.getString("commands." + key + ".permission"));
+        }
+
+        return permissions;
     }
 
     public static void makeConfig(SimpleAliasPlugin sap) throws IOException {

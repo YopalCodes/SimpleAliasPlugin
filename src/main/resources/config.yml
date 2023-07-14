@@ -1,11 +1,36 @@
+# -------------------
+# ALIAS FORMAT
+# -------------------
+#
+# main command:
+#   command to dispatch:
+#   permission (optional):
+#   aliases (optional):
+#     - alias 1
+#     - alias 2
+#     - etc.
+#   tab (optional):
+#     args1 (has to start with args1):
+#       - arg 1
+#       - etc.
+#     args2:
+#       - arg 1
+#       - etc.
+#     args3:
+#       - <@player> (means that the argument 3 will only be consisting of players on the server)
+#       - etc.
+#     etc.:
+
 commands:
   lts:
     commandToRun: "server LTS"
     aliases:
-      - "lts"
       - "survival"
   lobby:
     commandToRun: "server lobby"
     aliases:
-      - "lobby"
       - "hub"
+  creative:
+    commandToRun: "server Plot"
+    aliases:
+      - "cplots"

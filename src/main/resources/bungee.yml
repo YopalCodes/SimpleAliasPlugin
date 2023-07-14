@@ -2,5 +2,4 @@ name: SimpleAliasPlugin
 version: '${project.version}'
 main: com.yopal.simplealiasplugin.SimpleAliasPlugin
 commands:
-  lts:
   reload:

@@ -22,8 +22,9 @@ public final class SimpleAliasPlugin extends Plugin {
             throw new RuntimeException(e);
         }
 
-        // ProxyServer.getInstance().getPluginManager().registerCommand(this, new ReloadCommand("sapReload"));
 
+
+        // alias commands
         registerCommands();
     }
 
@@ -32,13 +33,20 @@ public final class SimpleAliasPlugin extends Plugin {
         // Plugin shutdown logic
     }
 
-    private void registerCommands() {
-        HashMap<String, List<String>> commands = ConfigManager.getCommands(this);
+    public void registerCommands() {
+        HashMap<String, List<String>> aliases = ConfigManager.getAliases(this);
+        HashMap<String, String> permissions = ConfigManager.getPermissions();
 
-        for (String command : commands.keySet()) {
-            getLogger().log(Level.INFO, command);
-            ProxyServer.getInstance().getPluginManager().registerCommand(this, new AliasCommand(command, commands.get(command), this));
+        // unregister all existing commands first
+        ProxyServer.getInstance().getPluginManager().unregisterCommands(this);
+
+        // register commands
+        for (String mainCommand : ConfigManager.getCommandsToRun().keySet()) {
+            ProxyServer.getInstance().getPluginManager().registerCommand(this, new AliasCommand(mainCommand, permissions.get(mainCommand), aliases.get(mainCommand)));
         }
+
+        // config reload command
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new ReloadCommand("sapReload", this));
 
     }
 }
